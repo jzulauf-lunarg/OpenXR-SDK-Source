@@ -205,7 +205,9 @@ struct D3D11GraphicsPlugin : public IGraphicsPlugin {
 
         // Clear swapchain and depth buffer. NOTE: This will clear the entire render target view, not just the specified view.
         // TODO: Do not clear to a color when using a pass-through view configuration.
-        m_deviceContext->ClearRenderTargetView(renderTargetView.Get(), DirectX::Colors::DarkSlateGray);
+        // m_deviceContext->ClearRenderTargetView(renderTargetView.Get(), DirectX::Colors::DarkSlateGray);
+        // WIP ZZZ HACK
+        m_deviceContext->ClearRenderTargetView(renderTargetView.Get(), DirectX::Colors::Transparent);
         m_deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
         ID3D11RenderTargetView* renderTargets[] = {renderTargetView.Get()};

@@ -2,6 +2,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+// Define to have version from gist
+//#define REMOVE_BACKGROUND_ETC
+// helloXR with cubes and gray bg removed (just lines 951, 971 & 903 commented out)
+// replace openxr_program.cpp in OpenXR-SDK-Source\src\tests\hello_xr with this file, then build
 #include "pch.h"
 #include "common.h"
 #include "options.h"
@@ -923,7 +927,9 @@ struct OpenXrProgram : IOpenXrProgram {
         std::vector<XrCompositionLayerProjectionView> projectionLayerViews;
         if (frameState.shouldRender == XR_TRUE) {
             if (RenderLayer(frameState.predictedDisplayTime, projectionLayerViews, layer)) {
+#ifndef REMOVE_BACKGROUND_ETC
                 layers.push_back(reinterpret_cast<XrCompositionLayerBaseHeader*>(&layer));
+#endif
             }
         }
 
@@ -971,7 +977,9 @@ struct OpenXrProgram : IOpenXrProgram {
             if (XR_UNQUALIFIED_SUCCESS(res)) {
                 if ((spaceLocation.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT) != 0 &&
                     (spaceLocation.locationFlags & XR_SPACE_LOCATION_ORIENTATION_VALID_BIT) != 0) {
+#ifndef REMOVE_BACKGROUND_ETC
                     cubes.push_back(Cube{spaceLocation.pose, {0.25f, 0.25f, 0.25f}});
+#endif
                 }
             } else {
                 Log::Write(Log::Level::Verbose, Fmt("Unable to locate a visualized reference space in app space: %d", res));
@@ -987,8 +995,10 @@ struct OpenXrProgram : IOpenXrProgram {
             if (XR_UNQUALIFIED_SUCCESS(res)) {
                 if ((spaceLocation.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT) != 0 &&
                     (spaceLocation.locationFlags & XR_SPACE_LOCATION_ORIENTATION_VALID_BIT) != 0) {
+#ifndef REMOVE_BACKGROUND_ETC
                     float scale = 0.1f * m_input.handScale[hand];
                     cubes.push_back(Cube{spaceLocation.pose, {scale, scale, scale}});
+#endif
                 }
             } else {
                 // Tracking loss is expected when the hand is not active so only log a message
